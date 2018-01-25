@@ -1,0 +1,440 @@
+
+\documentclass[11pt]{article}
+
+%%% PAQUETES
+
+% Idioma
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\setlength{\parindent}{0pt}
+
+% Matemáticas
+\usepackage{amssymb, amsthm}
+
+% Fuentes
+\usepackage[T1]{fontenc}
+\usepackage[sfdefault, scaled=.85]{roboto}
+\usepackage[scaled=.8]{FiraMono}
+\usepackage[cmintegrals]{newtxsf}
+\usepackage[italic]{mathastext}
+\usepackage{textcomp}
+\usepackage{wasysym}
+
+% Tablas
+\usepackage{multirow}
+\usepackage{colortbl}
+
+% Gráficos y colores
+
+\usepackage[x11names, rgb, html]{xcolor}
+\usepackage{graphics}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{adjustbox}
+
+% Ajustes del documento
+\usepackage{geometry}
+\geometry{left=3cm,right=3cm,top=3cm,bottom=3cm,headheight=1cm,headsep=0.5cm}
+\usepackage{enumitem}
+
+% Entornos personalizados.
+\usepackage{mdframed}
+
+% Código
+\usepackage{listingsutf8}
+
+%%% COLORES
+
+% Material Design
+
+\definecolor{50}{HTML}{E0F7FA}
+\definecolor{300}{HTML}{4DD0E1}
+\definecolor{500}{HTML}{00BCD4}
+\definecolor{700}{HTML}{0097A7}
+\definecolor{900}{HTML}{006064}
+
+% Solarized
+
+\definecolor{sbase03}{HTML}{002B36}
+\definecolor{sbase02}{HTML}{073642}
+\definecolor{sbase01}{HTML}{586E75}
+\definecolor{sbase00}{HTML}{657B83}
+\definecolor{sbase0}{HTML}{839496}
+\definecolor{sbase1}{HTML}{93A1A1}
+\definecolor{sbase2}{HTML}{EEE8D5}
+\definecolor{sbase3}{HTML}{FDF6E3}
+\definecolor{syellow}{HTML}{B58900}
+\definecolor{sorange}{HTML}{CB4B16}
+\definecolor{sred}{HTML}{DC322F}
+\definecolor{smagenta}{HTML}{D33682}
+\definecolor{sviolet}{HTML}{6C71C4}
+\definecolor{sblue}{HTML}{268BD2}
+\definecolor{scyan}{HTML}{2AA198}
+\definecolor{sgreen}{HTML}{859900}
+
+% Colores del documento
+
+\definecolor{text}{RGB}{78,78,78}
+\definecolor{accent}{RGB}{129, 26, 24}
+
+%%% LISTINGS
+
+% Listing -> Código fuente
+\renewcommand{\lstlistingname}{Código fuente}
+
+% Ajustes para que funcionen bien las tildes de los comentarios
+
+\lstset{
+  inputencoding=utf8/latin1
+}
+
+% Ajustes de Listings para el documento
+
+\lstset{
+  frame=leftline,
+  rulecolor=\color{300},
+  framerule=2pt,
+  % Números de línea
+  numbers=left,
+  % Margen adicional para alinear los entornos con el resto de párrafos
+  xleftmargin=0.7em,
+  % Espacio adicional debajo del título
+  belowcaptionskip=1\baselineskip,
+  % Colores
+  basicstyle=\footnotesize\ttfamily\color{sbase00},
+  keywordstyle=\color{700},
+  commentstyle=\color{300},
+  stringstyle=\color{500},
+  numberstyle=\color{500},
+  % Separar líenas largas en varias líneas
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+}
+
+%%% ENTORNOS PERSONALIZADOS
+
+\newtheoremstyle{ejercicio-style} % Nombre del estilo.
+{-0.5em}                          % Espacio por encima.
+{}                                % Espacio por debajo.
+{\normalfont}                     % Fuente del cuerpo.
+{}                                % Identación.
+{\bf\sffamily}                    % Fuente para la cabecera.
+{.}                               % Puntuación tras la cabecera.
+{.5em}                            % Espacio tras la cabecera.
+{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}     % Especificación de la cabecera (actual: nombre en negrita).
+
+
+\mdfdefinestyle{ejercicio-frame}{
+  linewidth=2pt, %
+  linecolor= 300, %
+  backgroundcolor= 50,
+  topline=false, %
+  bottomline=false, %
+  rightline=false,%
+  leftmargin=0pt, %
+  innerleftmargin=1em, %
+  innerrightmargin=1em,
+  rightmargin=0pt, %
+  innertopmargin=1em,%
+  innerbottommargin=1em, %
+  splittopskip=\topskip, %
+}%
+
+\surroundwithmdframed[style=ejercicio-frame]{ejer}
+
+\theoremstyle{ejercicio-style}
+\newtheorem{ejer}{Ejercicio}
+
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+
+\begin{document}
+
+% Cabecera del documento
+
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}!{\color{300}{\vrule width 2pt}}>{\columncolor{50}}clc}
+    \noalign{\global\arrayrulewidth=2pt}
+    %\arrayrulecolor{300}\hline
+    & & \\
+    & \Large{Modelos de Computación (MC)} & \\
+               & \large{Entrega de ejercicios.} & \\
+               & \large{Tema 3} & \\
+          & & \\
+          & \textsf{Estudiante (nombre y apellidos): Miguel Lentisco Ballesteros}  & \\
+          & \textsf{Grupo de prácticas: A1} & \\
+          & \textsf{Fecha de entrega: 03/11/2017} & \\
+         \multirow{-10}{*}{ \begin{tabular}{c}
+        \small{3º curso / 1º cuatr.} \\ Grado Ing. Inform. \\ Doble Grado Ing. \\ Inform. y Mat.
+\end{tabular}}  & & \\
+    %\hline
+\end{tabular*}
+
+\vspace{1cm}
+
+\section*{Ejercicios Tema 3}
+\label{sec:ej_tema_3}
+
+\begin{ejer}
+Construir expresiones regulares para los siguientes lenguajes sobre el alfabeto $\{0,1\}$:
+\begin{enumerate}
+	\item Palabras en las que el número de símbolos $0$ es múltiplo de $3$.
+	\item Palabras que contienencomo subcadena a 1100 ó a 00110.
+	\item Palabras en las que cada cero forma parte de una subcadena de 2 ceros y cada 1 forma parte de una subcadena de 3 unos.
+	\item Palabras en las que el número de ocurrencias de la subcadena 011 es menor o igual que el de ocurrencias de la subcadena 110.
+\end{enumerate}
+\end{ejer}
+
+\emph{Respuesta.}
+\begin{enumerate}
+	\item Hacemos el autómata:
+	\begin{center}
+		\begin{tikzpicture}[scale=0.2]
+		\tikzstyle{every node}+=[inner sep=0pt]
+		\draw [black] (12.4,-17.6) circle (3);
+		\draw (12.4,-17.6) node {$q_0$};
+		\draw [black] (12.4,-17.6) circle (2.4);
+		\draw [black] (27.7,-17.6) circle (3);
+		\draw (27.7,-17.6) node {$q_1$};
+		\draw [black] (44.3,-17.6) circle (3);
+		\draw (44.3,-17.6) node {$q_2$};
+		\draw [black] (8.6,-17.6) -- (9.4,-17.6);
+		\fill [black] (9.4,-17.6) -- (8.6,-17.1) -- (8.6,-18.1);
+		\draw [black] (10.21,-15.567) arc (254.85446:-33.14554:2.25);
+		\draw (9.06,-10.77) node [above] {$1$};
+		\fill [black] (12.68,-14.63) -- (13.37,-13.98) -- (12.41,-13.72);
+		\draw [black] (14.82,-15.843) arc (118.21576:61.78424:11.062);
+		\fill [black] (25.28,-15.84) -- (24.81,-15.02) -- (24.34,-15.91);
+		\draw (20.05,-14.03) node [above] {$0$};
+		\draw [black] (30.206,-15.963) arc (116.52383:63.47617:12.974);
+		\fill [black] (41.79,-15.96) -- (41.3,-15.16) -- (40.85,-16.05);
+		\draw (36,-14.1) node [above] {$0$};
+		\draw [black] (26.869,-14.73) arc (223.87533:-64.12467:2.25);
+		\draw (29.37,-10.36) node [above] {$1$};
+		\fill [black] (29.47,-15.19) -- (30.4,-15) -- (29.7,-14.28);
+		\draw [black] (44.825,-14.658) arc (197.61565:-90.38435:2.25);
+		\draw (49.31,-11.67) node [above] {$1$};
+		\fill [black] (46.95,-16.23) -- (47.87,-16.46) -- (47.57,-15.51);
+		\draw [black] (42.005,-19.529) arc (-53.68498:-126.31502:23.057);
+		\fill [black] (14.7,-19.53) -- (15.04,-20.41) -- (15.64,-19.6);
+		\draw (28.35,-24.51) node [below] {$0$};
+		\end{tikzpicture}
+	\end{center}
+\end{enumerate}
+	
+Bien, como son estados independientes ($0$ de $1$), si los juntamos tendremos $3*2=6$ estados diferentes, los cuales serían: $q_0p_0, q_1p_0, q_0p_1, q_1p_1, q_0p_2$ y $q_1p_2$. Entonces, si en un estado aparece $q_1$ o $p_0$ entonces \emph{NO} es válido, dejándonos que los estados finales son $q_0p_1$ y $q_0p_2$. \\
+
+El autómata determinista finito sería de la siguiente forma (empezamos en $q_0p_0$ puesto que ningun $0$ es par ($0$) y ningún $1$ es múltiplo de $3$ ($0$ múltiplo de todos):
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (22.1,-17.4) circle (3);
+\draw (22.1,-17.4) node {$q_0p_0$};
+\draw [black] (53,-17.4) circle (3);
+\draw (53,-17.4) node {$q_1p_0$};
+\draw [black] (30.4,-27.7) circle (3);
+\draw (30.4,-27.7) node {$q_0p_1$};
+\draw [black] (30.4,-27.7) circle (2.4);
+\draw [black] (44.7,-27.7) circle (3);
+\draw (44.7,-27.7) node {$q_1p_1$};
+\draw [black] (22.1,-38.9) circle (3);
+\draw (22.1,-38.9) node {$q_0p_2$};
+\draw [black] (22.1,-38.9) circle (2.4);
+\draw [black] (53,-38.9) circle (3);
+\draw (53,-38.9) node {$q_1p_2$};
+\draw [black] (25.1,-17.4) -- (50,-17.4);
+\fill [black] (50,-17.4) -- (49.2,-16.9) -- (49.2,-17.9);
+\draw (37.55,-17.9) node [below] {$0$};
+\draw [black] (33.4,-27.7) -- (41.7,-27.7);
+\fill [black] (41.7,-27.7) -- (40.9,-27.2) -- (40.9,-28.2);
+\draw (37.55,-28.2) node [below] {$0$};
+\draw [black] (41.7,-27.7) -- (33.4,-27.7);
+\fill [black] (33.4,-27.7) -- (34.2,-28.2) -- (34.2,-27.2);
+\draw (37.55,-27.2) node [above] {$0$};
+\draw [black] (50,-17.4) -- (25.1,-17.4);
+\fill [black] (25.1,-17.4) -- (25.9,-17.9) -- (25.9,-16.9);
+\draw (37.55,-16.9) node [above] {$0$};
+\draw [black] (50,-38.9) -- (25.1,-38.9);
+\fill [black] (25.1,-38.9) -- (25.9,-39.4) -- (25.9,-38.4);
+\draw (37.55,-38.4) node [above] {$0$};
+\draw [black] (25.1,-38.9) -- (50,-38.9);
+\fill [black] (50,-38.9) -- (49.2,-38.4) -- (49.2,-39.4);
+\draw (37.55,-39.4) node [below] {$0$};
+\draw [black] (28.61,-30.11) -- (23.89,-36.49);
+\fill [black] (23.89,-36.49) -- (24.76,-36.14) -- (23.96,-35.55);
+\draw (25.67,-31.91) node [left] {$1$};
+\draw [black] (23.98,-19.74) -- (28.52,-25.36);
+\fill [black] (28.52,-25.36) -- (28.4,-24.43) -- (27.63,-25.05);
+\draw (25.69,-23.98) node [left] {$1$};
+\draw [black] (22.1,-35.9) -- (22.1,-20.4);
+\fill [black] (22.1,-20.4) -- (21.6,-21.2) -- (22.6,-21.2);
+\draw (22.6,-28.15) node [right] {$1$};
+\draw [black] (53,-35.9) -- (53,-20.4);
+\fill [black] (53,-20.4) -- (52.5,-21.2) -- (53.5,-21.2);
+\draw (53.5,-28.15) node [right] {$1$};
+\draw [black] (51.12,-19.74) -- (46.58,-25.36);
+\fill [black] (46.58,-25.36) -- (47.47,-25.05) -- (46.7,-24.43);
+\draw (48.29,-21.12) node [left] {$1$};
+\draw [black] (46.49,-30.11) -- (51.21,-36.49);
+\fill [black] (51.21,-36.49) -- (51.14,-35.55) -- (50.34,-36.14);
+\draw (48.27,-34.69) node [left] {$1$};
+\draw [black] (16.8,-17.4) -- (19.1,-17.4);
+\fill [black] (19.1,-17.4) -- (18.3,-16.9) -- (18.3,-17.9);
+\end{tikzpicture}
+\end{center}
+
+
+\begin{ejer}
+Dar una expresión regular para el lenguaje aceptado por el siguiente autómata:
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (22.9,-23.8) circle (3);
+\draw (22.9,-23.8) node {$q_0$};
+\draw [black] (22.9,-23.8) circle (2.4);
+\draw [black] (51.8,-23.8) circle (3);
+\draw (51.8,-23.8) node {$q_1$};
+\draw [black] (36.6,-44.8) circle (3);
+\draw (36.6,-44.8) node {$q_2$};
+\draw [black] (36.6,-44.8) circle (2.4);
+\draw [black] (18.1,-23.8) -- (19.9,-23.8);
+\fill [black] (19.9,-23.8) -- (19.1,-23.3) -- (19.1,-24.3);
+\draw [black] (25.9,-23.8) -- (48.8,-23.8);
+\fill [black] (48.8,-23.8) -- (48,-23.3) -- (48,-24.3);
+\draw (37.35,-24.3) node [below] {$a,b$};
+\draw [black] (50.04,-26.23) -- (38.36,-42.37);
+\fill [black] (38.36,-42.37) -- (39.23,-42.01) -- (38.42,-41.43);
+\draw (43.61,-32.92) node [left] {$b$};
+\draw [black] (34.96,-42.29) -- (24.54,-26.31);
+\fill [black] (24.54,-26.31) -- (24.56,-27.26) -- (25.4,-26.71);
+\draw (30.37,-32.98) node [right] {$a$};
+\draw [black] (51.265,-20.86) arc (218.0546:-69.9454:2.25);
+\draw (54.42,-16.76) node [above] {$a$};
+\fill [black] (53.81,-21.59) -- (54.75,-21.49) -- (54.13,-20.7);
+\draw [black] (38.36,-42.37) -- (50.04,-26.23);
+\fill [black] (50.04,-26.23) -- (49.17,-26.59) -- (49.98,-27.17);
+\draw (44.79,-35.68) node [right] {$b$};
+\end{tikzpicture}
+\end{center}
+\end{ejer}
+
+\emph{Respuesta.} Comento que este ejercicio lo hice a ojo antes de saber que había un método para hacer esto, así que explicaré como he llegado a la respuesta. Tenemos varias posibilidades para aceptar palabras:
+\begin{enumerate}
+	\item Solo $q_0 \equiv \epsilon$
+	\item $q_0 \rightarrow q_1 \rightarrow q_2$
+	\item $q_0 \rightarrow q_1 \rightarrow q_2 \rightarrow q_0$
+	\item $q_0 \rightarrow q_1 \rightarrow q_2 \rightarrow q_0 \rightarrow \dotsb \rightarrow q_2 \equiv (3)^*2$
+	\item $q_0 \rightarrow q_1 \rightarrow q_2 \rightarrow q_0 \rightarrow \dotsb \rightarrow q_0 \equiv (3)^*$
+\end{enumerate}
+
+Está claro que si encontramos una expresión regular para 3, podemos poner $*$ para que se repita todas las veces que quiera y obtener 1 y 5 también. Ahora bien, la expresión para 2 debe ponerse al final de esta solución para 3, ya que después de dar muchas vueltas podemos acabar en $q_2$ y unirla con $\epsilon$ para el caso 1, obteniendo el caso 4. \\
+
+Entonces veamos lo siguiente:
+	\begin{itemize}
+		\item Caso 2: $(a+b)a^*b{(ba^*b)}^*$
+		\item Caso 3,5: ${((a+b)a^*b{(ba^*b)}^*a)}^*$
+	\end{itemize}
+	
+El resultado final para todos los casos es:
+$$ {((a+b)a^*b{(ba^*b)}^*a)}^*((a+b)a^*b{(ba^*b)}^* + \epsilon )$$
+
+\newpage
+
+\begin{ejer}
+Sea $B_n = \{ a^k : \text{k es múltiplo de n} \}$ demostrar que $B_n$ es regular para todo $n$.
+\end{ejer}
+
+\emph{Respuesta.} La demostración es sencilla, vemos que si un $k$ es múltiplo de $n$ podemos decir que $k = mn$, $m \in \mathbb{N}$, luego podemos reescribir $B_n = \{ a^{kn} : \forall k \in \mathbb{N} \} = \{ a^0 = \epsilon, a^n, a^{2n}=a^na^n, \dotsb \}$. \\
+
+Entonces, podemos construir un autómata que detecte la palabra $a$ mediante los estados $q_0, q_1 \dotsb q_n$ con estado inicial $q_0$ y estado final (para la palabra vacía); y el otro estado final el $q_n$. De cada estado a otro estado leemos $a$ y de $q_n$ volvemos a $q_1$. \\
+
+Por ejemplo para n = 3:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (23.3,-24.6) circle (3);
+\draw (23.3,-24.6) node {$q_0$};
+\draw [black] (23.3,-24.6) circle (2.4);
+\draw [black] (39.9,-24.6) circle (3);
+\draw (39.9,-24.6) node {$q_1$};
+\draw [black] (56.3,-24.6) circle (3);
+\draw (56.3,-24.6) node {$q_2$};
+\draw [black] (47,-41.1) circle (3);
+\draw (47,-41.1) node {$q_3$};
+\draw [black] (47,-41.1) circle (2.4);
+\draw [black] (18,-24.6) -- (20.3,-24.6);
+\fill [black] (20.3,-24.6) -- (19.5,-24.1) -- (19.5,-25.1);
+\draw [black] (26.3,-24.6) -- (36.9,-24.6);
+\fill [black] (36.9,-24.6) -- (36.1,-24.1) -- (36.1,-25.1);
+\draw (31.6,-25.1) node [below] {$a$};
+\draw [black] (42.9,-24.6) -- (53.3,-24.6);
+\fill [black] (53.3,-24.6) -- (52.5,-24.1) -- (52.5,-25.1);
+\draw (48.1,-25.1) node [below] {$a$};
+\draw [black] (54.83,-27.21) -- (48.47,-38.49);
+\fill [black] (48.47,-38.49) -- (49.3,-38.04) -- (48.43,-37.54);
+\draw (50.99,-31.64) node [left] {$a$};
+\draw [black] (45.81,-38.34) -- (41.09,-27.36);
+\fill [black] (41.09,-27.36) -- (40.94,-28.29) -- (41.86,-27.89);
+\draw (44.18,-31.89) node [right] {$a$};
+\end{tikzpicture}
+\end{center}
+
+Está claro que podemos formar una expresión regular de la forma: $(aaa)^*$ y en general será de la expresión: $$ (a^n)^* = (a \dotsb a)^* $$
+
+Luego efectivamente $B_n$ es regular $\forall n \in \mathbb{N}$.
+
+\begin{ejer}
+Decimos que $u$ es un prefijo de $v$ si existe $w$ tal que $uw = v$. Decimos que $u$ es un prefijo propio de v si además $u \neq v$ y $u \neq \epsilon$. Demostrar que si $L$ es regular, también lo son los lenguajes:
+\begin{enumerate}
+	\item $NOPREFIJO(L) = \{ u \in L : \text{ningún prefijo propio de u pertence a L}\}$
+	\item $NOEXTENSION(L) = \{ u \in L : \text{u no es un prefijo propio de ninguna palabra de L} \}$
+\end{enumerate}
+\end{ejer}
+
+\emph{Respuesta.}
+\begin{enumerate}
+	\item $PREFIJO(L)= \{ u \in A^* : \text{algún prefijo propio de u pertenece a L}\}$, es regular por ser concatenación de lenguajes regulares $PREFIJO(L)=LA^+$. Como los lenguajes regulares son cerrados para la intersección y el complementario, $NOPREFIJO(L)$ es regular porque: $NOPREFIJO(L) = \overline{PREFIJO(L)} \cap L$
+	\item Montamos un autómata que reconozca los prefijos de $L$, que sean los estados finales, entonces tenemos que el complementario este autómata (el complementario es regular) forma todas las palabras que no son prefijos propios de ninguna palabra de L, que es lo que queríamos demostrar (y es regular).
+\end{enumerate}
+
+
+\begin{ejer}
+Si $L \subset A*$, define la relación $\equiv$ en $A^*$ como sigue: si $u,v \in A^*$, entonces $u \equiv v$ si y solo si para toda $z \in A^*$, tenemos que ($ xz \in L \iff yz \in L$).
+\begin{enumerate}
+	\item Demostrar que $\equiv$ es una relación de equivalencia.
+	\item Calcular las clases de equivalencia de $L = \{ a^ib^i : i \geq 0 \} $
+	\item Calcular las clases de equivalencia de $L = \{ a^ib^j : i, j \geq 0 \} $
+	\item Demostrar que $L$ es aceptado por un autómata finito determinístico si y solo si el número de clases de equivalencia es finito.
+	\item ¿Qué relación existe entre el número de clases de equivalencia y el autómata finito minimal que acepta $L$?
+\end{enumerate}
+\end{ejer}
+
+\emph{Respuesta.}
+\begin{enumerate}
+	\item Tenemos que ver que $\equiv$ cumple las propiedades de reflexión, simetría y transitividad:
+	\begin{itemize}
+		\item Reflexiva: Si se cumple que $\forall z \in A^*$, $xz \in L$ obviamente $xz \in L \iff xz \in L$ luego $x \equiv x$.
+		\item Simétrica: Si $x \equiv y$ se cumple $\forall z \in A^*$, $xz \in L \iff yz \in L$, y por tanto $yz \in L \iff xz \in L$, luego $y \equiv x$.
+		\item Transitiva: Si $x \equiv y$ e $y \equiv z$ entonces tenemos que $\forall a \in A^*$, $xa \in L \iff ya \in L \iff za \in L$, en particular $xa \in L \iff za \in L$, y por tanto $ x \equiv z$. 
+	\end{itemize}
+	\item Sabemos que por definición si $u \notin Cab(L) \Rightarrow \forall z \in A^* : uz \notin L$ por tanto, cualquiera de las palabras contenidas en $A \setminus Cab(L)$ forman una clase de equivalencia (si empieza por b, o hay más b que a). \\
+	
+	Ahora veamos que $Cab(L) = \{ a^ib^j : i \geq j \geq 0 \} $, luego si dos palabras de $Cab(L)$ están relacionadas es que le añado la misma terminación, por tanto tenemos que añadir el mismo número de b a las dos palabras, y para obtener una palabra de $L$ a partir de $Cab(L)$ tengo que añadir $b^{i-j}$ al final de ambas. Por tanto tenemos que $\forall u,v \in Cab(L)$:
+	$$ u = a^ib^j \equiv v = a^nb^m \iff i-j = n-m$$
+Concluyendo así que si ponemos $b^{i-j} = b^n$, $\forall n \in \mathbb{N}$ para cada $n$ tenemos una clase de equivalencia.
+	\item Por lo mismo de arriba, una clase de equivalencia sería $A^* \setminus Cab(L)$ \\
+	Ahora bien, si pongo cualquier secuencias de $a$, obviamente puedo poner a continuación lo que me de la gana y seguiría estando en $L$ (si pusiera otra cosa de $L$ entonces no estaría en L), luego este conjunto ${a^n: n \geq 0}$ forman una clase de equivalencia. \\
+	
+	De la misma forma, cualquier palabra de $L$, que puede ser cualquier número de a seguido de cualquier número de b, podemos ponerle la misma secuencia de b, que como no hay ninguna restricción, pues sigue estando en $L$, por tanto todo $L$ forma una clase de equivalencia. \\
+	
+	Efectivamente, las palabras que quedaban: $b^ja^i$ con $i,j \geq 1$ forman parte de $A^* \setminus Cab(L)$ luego ya tenemos cubiertas todas las posibilidades.
+	
+	\item Si $L$ es aceptado por un AFD, entonces como $\forall z \in A^*$ se cumple $az \in L \equiv yz \in L$ entonces para cualquiera $z$ tenemos que la transición al añadir el mismo sufijo deben llegar al mismo estado (dando por supuesto que u y v deben llegar al mismo estado). Por tanto el número de clases es igual al número de estados (finito). \\
+	
+	De la misma manera, construimos un autómata que los estados finales sean los estados a los que se llegan al añadir el mismo sufijo a todas las clases de equivalencia, por tanto haciendo un AFD que admite $L$.
+	
+	\item Obviamente de arriba, vemos que el autómata finito minimal que acepta $L$ tendrá tantos estados como clases de equivalencia, podríamos reducir las clases de equivalencia al número mínimo de estados finitos del autómata finito minimal que acepta L.
+\end{enumerate}
+\end{document}

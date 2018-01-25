@@ -1,0 +1,560 @@
+
+\documentclass[11pt]{article}
+
+%%% PAQUETES
+
+% Idioma
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\setlength{\parindent}{0pt}
+
+% Matemáticas
+\usepackage{amssymb, amsthm}
+
+% Fuentes
+\usepackage[T1]{fontenc}
+\usepackage[sfdefault, scaled=.85]{roboto}
+\usepackage[scaled=.8]{FiraMono}
+\usepackage[cmintegrals]{newtxsf}
+\usepackage[italic]{mathastext}
+\usepackage{textcomp}
+\usepackage{wasysym}
+
+% Tablas
+\usepackage{multirow}
+\usepackage{colortbl}
+
+% Gráficos y colores
+
+\usepackage[x11names, rgb, html]{xcolor}
+\usepackage{graphics}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{adjustbox}
+
+% Ajustes del documento
+\usepackage{geometry}
+\geometry{left=3cm,right=3cm,top=3cm,bottom=3cm,headheight=1cm,headsep=0.5cm}
+\usepackage{enumitem}
+
+% Entornos personalizados.
+\usepackage{mdframed}
+
+% Código
+\usepackage{listingsutf8}
+
+%%% COLORES
+
+% Material Design
+
+\definecolor{50}{HTML}{E0F7FA}
+\definecolor{300}{HTML}{4DD0E1}
+\definecolor{500}{HTML}{00BCD4}
+\definecolor{700}{HTML}{0097A7}
+\definecolor{900}{HTML}{006064}
+
+% Solarized
+
+\definecolor{sbase03}{HTML}{002B36}
+\definecolor{sbase02}{HTML}{073642}
+\definecolor{sbase01}{HTML}{586E75}
+\definecolor{sbase00}{HTML}{657B83}
+\definecolor{sbase0}{HTML}{839496}
+\definecolor{sbase1}{HTML}{93A1A1}
+\definecolor{sbase2}{HTML}{EEE8D5}
+\definecolor{sbase3}{HTML}{FDF6E3}
+\definecolor{syellow}{HTML}{B58900}
+\definecolor{sorange}{HTML}{CB4B16}
+\definecolor{sred}{HTML}{DC322F}
+\definecolor{smagenta}{HTML}{D33682}
+\definecolor{sviolet}{HTML}{6C71C4}
+\definecolor{sblue}{HTML}{268BD2}
+\definecolor{scyan}{HTML}{2AA198}
+\definecolor{sgreen}{HTML}{859900}
+
+% Colores del documento
+
+\definecolor{text}{RGB}{78,78,78}
+\definecolor{accent}{RGB}{129, 26, 24}
+
+%%% LISTINGS
+
+% Listing -> Código fuente
+\renewcommand{\lstlistingname}{Código fuente}
+
+% Ajustes para que funcionen bien las tildes de los comentarios
+
+\lstset{
+  inputencoding=utf8/latin1
+}
+
+% Ajustes de Listings para el documento
+
+\lstset{
+  frame=leftline,
+  rulecolor=\color{300},
+  framerule=2pt,
+  % Números de línea
+  numbers=left,
+  % Margen adicional para alinear los entornos con el resto de párrafos
+  xleftmargin=0.7em,
+  % Espacio adicional debajo del título
+  belowcaptionskip=1\baselineskip,
+  % Colores
+  basicstyle=\footnotesize\ttfamily\color{sbase00},
+  keywordstyle=\color{700},
+  commentstyle=\color{300},
+  stringstyle=\color{500},
+  numberstyle=\color{500},
+  % Separar líenas largas en varias líneas
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+}
+
+%%% ENTORNOS PERSONALIZADOS
+
+\newtheoremstyle{ejercicio-style} % Nombre del estilo.
+{-0.5em}                          % Espacio por encima.
+{}                                % Espacio por debajo.
+{\normalfont}                     % Fuente del cuerpo.
+{}                                % Identación.
+{\bf\sffamily}                    % Fuente para la cabecera.
+{.}                               % Puntuación tras la cabecera.
+{.5em}                            % Espacio tras la cabecera.
+{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}     % Especificación de la cabecera (actual: nombre en negrita).
+
+
+\mdfdefinestyle{ejercicio-frame}{
+  linewidth=2pt, %
+  linecolor= 300, %
+  backgroundcolor= 50,
+  topline=false, %
+  bottomline=false, %
+  rightline=false,%
+  leftmargin=0pt, %
+  innerleftmargin=1em, %
+  innerrightmargin=1em,
+  rightmargin=0pt, %
+  innertopmargin=1em,%
+  innerbottommargin=1em, %
+  splittopskip=\topskip, %
+}%
+
+\surroundwithmdframed[style=ejercicio-frame]{ejer}
+
+\theoremstyle{ejercicio-style}
+\newtheorem{ejer}{Ejercicio}
+
+\usepackage{tikz}
+\usetikzlibrary{automata,positioning}
+
+\begin{document}
+
+% Cabecera del documento
+
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}!{\color{300}{\vrule width 2pt}}>{\columncolor{50}}clc}
+    \noalign{\global\arrayrulewidth=2pt}
+    %\arrayrulecolor{300}\hline
+    & & \\
+    & \Large{Modelos de Computación (MC)} & \\
+               & \large{Entrega de ejercicios.} & \\
+               & \large{Tema 3} & \\
+          & & \\
+          & \textsf{Estudiante: Miguel Lentisco Ballesteros}  & \\
+          & \textsf{Grupo de prácticas: A1} & \\
+          & \textsf{Fecha de entrega: 03/11/2017} & \\
+         \multirow{-10}{*}{ \begin{tabular}{c}
+        \small{3º curso / 1º cuatr.} \\ Grado Ing. Inform. \\ Doble Grado Ing. \\ Inform. y Mat.
+\end{tabular}}  & & \\
+    %\hline
+\end{tabular*}
+
+\vspace{1cm}
+
+\section*{Ejercicios Tema 3}
+\label{sec:ej_tema_3}
+
+\begin{ejer}
+Construir expresiones regulares para los siguientes lenguajes sobre el alfabeto $\{0,1\}$:
+\begin{enumerate}
+	\item Palabras en las que el número de símbolos $0$ es múltiplo de $3$.
+	\item Palabras que contienencomo subcadena a 1100 ó a 00110.
+	\item Palabras en las que cada cero forma parte de una subcadena de 2 ceros y cada 1 forma parte de una subcadena de 3 unos.
+	\item Palabras en las que el número de ocurrencias de la subcadena 011 es menor o igual que el de ocurrencias de la subcadena 110.
+\end{enumerate}
+\end{ejer}
+
+\emph{Respuesta.}
+\begin{enumerate}
+	\item Hacemos el autómata:
+	\begin{center}
+		\begin{tikzpicture}[scale=0.2]
+		\tikzstyle{every node}+=[inner sep=0pt]
+		\draw [black] (12.4,-17.6) circle (3);
+		\draw (12.4,-17.6) node {$q_0$};
+		\draw [black] (12.4,-17.6) circle (2.4);
+		\draw [black] (27.7,-17.6) circle (3);
+		\draw (27.7,-17.6) node {$q_1$};
+		\draw [black] (44.3,-17.6) circle (3);
+		\draw (44.3,-17.6) node {$q_2$};
+		\draw [black] (8.6,-17.6) -- (9.4,-17.6);
+		\fill [black] (9.4,-17.6) -- (8.6,-17.1) -- (8.6,-18.1);
+		\draw [black] (10.21,-15.567) arc (254.85446:-33.14554:2.25);
+		\draw (9.06,-10.77) node [above] {$1$};
+		\fill [black] (12.68,-14.63) -- (13.37,-13.98) -- (12.41,-13.72);
+		\draw [black] (14.82,-15.843) arc (118.21576:61.78424:11.062);
+		\fill [black] (25.28,-15.84) -- (24.81,-15.02) -- (24.34,-15.91);
+		\draw (20.05,-14.03) node [above] {$0$};
+		\draw [black] (30.206,-15.963) arc (116.52383:63.47617:12.974);
+		\fill [black] (41.79,-15.96) -- (41.3,-15.16) -- (40.85,-16.05);
+		\draw (36,-14.1) node [above] {$0$};
+		\draw [black] (26.869,-14.73) arc (223.87533:-64.12467:2.25);
+		\draw (29.37,-10.36) node [above] {$1$};
+		\fill [black] (29.47,-15.19) -- (30.4,-15) -- (29.7,-14.28);
+		\draw [black] (44.825,-14.658) arc (197.61565:-90.38435:2.25);
+		\draw (49.31,-11.67) node [above] {$1$};
+		\fill [black] (46.95,-16.23) -- (47.87,-16.46) -- (47.57,-15.51);
+		\draw [black] (42.005,-19.529) arc (-53.68498:-126.31502:23.057);
+		\fill [black] (14.7,-19.53) -- (15.04,-20.41) -- (15.64,-19.6);
+		\draw (28.35,-24.51) node [below] {$0$};
+		\end{tikzpicture}
+	\end{center}
+	Obteniendo la expresión regular: $(1^*01^*01^*0)^*$.
+	\newpage
+	\item Hacemos el autómata:
+	\begin{center}
+	\begin{tikzpicture}[scale=0.2]
+	\tikzstyle{every node}+=[inner sep=0pt]
+	\draw [black] (8.4,-25.2) circle (3);
+	\draw (8.4,-25.2) node {$q_0$};
+	\draw [black] (22.2,-16.4) circle (3);
+	\draw (22.2,-16.4) node {$q_1$};
+	\draw [black] (37.6,-16.4) circle (3);
+	\draw (37.6,-16.4) node {$q_2$};
+	\draw [black] (53.8,-16.4) circle (3);
+	\draw (53.8,-16.4) node {$q_3$};
+	\draw [black] (64.5,-24.6) circle (3);
+	\draw (64.5,-24.6) node {$q_4$};
+	\draw [black] (19.8,-33.9) circle (3);
+	\draw (19.8,-33.9) node {$q_5$};
+	\draw [black] (45.5,-33.9) circle (3);
+	\draw (45.5,-33.9) node {$q_7$};
+	\draw [black] (57.4,-33.9) circle (3);
+	\draw [black] (64.5,-24.6) circle (2.4);
+	\draw (57.4,-33.9) node {$q_8$};
+	\draw [black] (31.3,-33.9) circle (3);
+	\draw (31.3,-33.9) node {$q_6$};
+	\draw [black] (10.508,-23.068) arc (132.49478:112.555:30.377);
+	\fill [black] (19.38,-17.41) -- (18.45,-17.26) -- (18.83,-18.18);
+	\draw (13.7,-19.35) node [above] {$1$};
+	\draw [black] (16.831,-33.53) arc (-104.40606:-150.29264:11.764);
+	\fill [black] (16.83,-33.53) -- (16.18,-32.85) -- (15.93,-33.82);
+	\draw (11.62,-31.98) node [below] {$0$};
+	\draw [black] (24.785,-14.891) arc (113.55313:66.44687:12.8);
+	\fill [black] (35.01,-14.89) -- (34.48,-14.11) -- (34.08,-15.03);
+	\draw (29.9,-13.32) node [above] {$1$};
+	\draw [black] (35.728,-14.071) arc (246.52881:-41.47119:2.25);
+	\draw (35.5,-9.23) node [above] {$1$};
+	\fill [black] (38.31,-13.5) -- (39.09,-12.96) -- (38.17,-12.56);
+	\draw [black] (40.578,-16.037) arc (95.3755:84.6245:54.678);
+	\fill [black] (50.82,-16.04) -- (50.07,-15.46) -- (49.98,-16.46);
+	\draw (45.7,-15.3) node [above] {$0$};
+	\draw [black] (56.659,-17.295) arc (67.11399:37.95613:15.602);
+	\fill [black] (62.89,-22.07) -- (62.8,-21.13) -- (62.01,-21.75);
+	\draw (61.09,-18.79) node [above] {$0$};
+	\draw [black] (67.18,-23.277) arc (144:-144:2.25);
+	\draw (71.75,-24.6) node [right] {$0,1$};
+	\fill [black] (67.18,-25.92) -- (67.53,-26.8) -- (68.12,-25.99);
+	\draw [black] (19.113,-30.982) arc (-170.89451:-204.72347:20.742);
+	\fill [black] (20.75,-19.02) -- (19.96,-19.54) -- (20.87,-19.96);
+	\draw (18.36,-24.72) node [left] {$1$};
+	\draw [black] (22.226,-19.399) arc (-1.18718:-14.43081:50.851);
+	\fill [black] (20.63,-31.02) -- (21.32,-30.37) -- (20.35,-30.12);
+	\draw (22.45,-25.41) node [right] {$0$};
+	\draw [black] (22.512,-32.641) arc (106.74548:73.25452:10.544);
+	\fill [black] (28.59,-32.64) -- (27.97,-31.93) -- (27.68,-32.89);
+	\draw (25.55,-31.69) node [above] {$0$};
+	\draw [black] (30.568,-31.003) arc (221.90524:-66.09476:2.25);
+	\draw (33.32,-26.72) node [above] {$0$};
+	\fill [black] (33.15,-31.56) -- (34.08,-31.39) -- (33.42,-30.65);
+	\draw [black] (34.192,-33.111) arc (101.27603:78.72397:21.522);
+	\fill [black] (42.61,-33.11) -- (41.92,-32.46) -- (41.73,-33.44);
+	\draw (38.4,-32.2) node [above] {$1$};
+	\draw [black] (63.29,-27.342) arc (-28.37868:-46.34051:18.813);
+	\fill [black] (63.29,-27.34) -- (62.47,-27.81) -- (63.35,-28.28);
+	\draw (62.26,-31.22) node [right] {$0$};
+	\draw [black] (48.229,-32.675) arc (106.56188:73.43812:11.3);
+	\fill [black] (54.67,-32.68) -- (54.05,-31.97) -- (53.76,-32.93);
+	\draw (51.45,-31.71) node [above] {$1$};
+	\draw [black] (43.473,-36.105) arc (-47.91276:-132.08724:16.147);
+	\fill [black] (21.83,-36.11) -- (22.09,-37.01) -- (22.76,-36.27);
+	\draw (32.65,-40.77) node [below] {$0$};
+	\draw [black] (40.333,-17.636) arc (63.52056:33.53648:39.997);
+	\fill [black] (40.33,-17.64) -- (40.83,-18.44) -- (41.27,-17.54);
+	\draw (50,-22.98) node [above] {$1$};
+	\draw [black] (23.588,-13.745) arc (147.37594:32.62406:17.112);
+	\fill [black] (23.59,-13.74) -- (24.44,-13.34) -- (23.6,-12.8);
+	\draw (38,-5.36) node [above] {$0$};
+	\end{tikzpicture}
+	\end{center}
+	La expresión es difícil de sacar, pero a ojo se ve: $(0+1)^*(1100+00110)(0+1)^*$.
+	\item Autómata:
+		\begin{center}
+		\begin{tikzpicture}[scale=0.2]
+		\tikzstyle{every node}+=[inner sep=0pt]
+		\draw [black] (8.1,-21.8) circle (3);
+		\draw (8.1,-21.8) node {$q_0$};
+		\draw [black] (8.1,-21.8) circle (2.4);
+		\draw [black] (24.3,-16.8) circle (3);
+		\draw (24.3,-16.8) node {$q_1$};
+		\draw [black] (42.7,-16.1) circle (3);
+		\draw (42.7,-16.1) node {$q_2$};
+		\draw [black] (55.4,-25.1) circle (3);
+		\draw (55.4,-25.1) node {$q_3$};
+		\draw [black] (55.4,-25.1) circle (2.4);
+		\draw [black] (32.7,-27.9) circle (3);
+		\draw (32.7,-27.9) node {$\emptyset$};
+		\draw [black] (34.7,-41.6) circle (3);
+		\draw (34.7,-41.6) node {$q_4$};
+		\draw [black] (5.2,-21.8) -- (5.1,-21.8);
+		\fill [black] (5.1,-21.8) -- (4.3,-21.3) -- (4.3,-22.3);
+		\draw [black] (10.801,-20.496) arc (113.92078:100.38406:46.763);
+		\fill [black] (21.33,-17.25) -- (20.46,-16.9) -- (20.64,-17.88);
+		\draw (15.12,-18.01) node [above] {$1$};
+		\draw [black] (27.263,-16.334) arc (97.62851:86.72885:65.573);
+		\fill [black] (39.71,-15.86) -- (38.94,-15.32) -- (38.88,-16.31);
+		\draw (33.45,-15.26) node [above] {$1$};
+		\draw [black] (31.709,-41.39) arc (-97.0394:-156.28571:28.435);
+		\fill [black] (31.71,-41.39) -- (30.98,-40.8) -- (30.85,-41.79);
+		\draw (17.21,-36.48) node [below] {$0$};
+		\draw [black] (53.653,-27.538) arc (-37.60963:-65.27357:43.291);
+		\fill [black] (53.65,-27.54) -- (52.77,-27.87) -- (53.56,-28.48);
+		\draw (47.35,-35.47) node [below] {$0$};
+		\draw [black] (45.586,-16.906) arc (69.86437:39.48817:18.939);
+		\fill [black] (53.68,-22.64) -- (53.56,-21.71) -- (52.79,-22.34);
+		\draw (51.02,-18.74) node [above] {$1$};
+		\draw [black] (25.717,-14.161) arc (146.48376:3.63047:16.252);
+		\fill [black] (25.72,-14.16) -- (26.58,-13.77) -- (25.74,-13.22);
+		\draw (44.22,-6.87) node [above] {$1$};
+		\draw [black] (36.641,-39.313) arc (138.26235:118.85445:61.061);
+		\fill [black] (36.64,-39.31) -- (37.55,-39.05) -- (36.8,-38.38);
+		\draw (43.14,-31.72) node [above] {$0$};
+		\draw [black] (30.161,-26.31) arc (-127.53128:-158.235:15.714);
+		\fill [black] (30.16,-26.31) -- (29.83,-25.43) -- (29.22,-26.22);
+		\draw (26.63,-24.73) node [left] {$0$};
+		\draw [black] (41.14,-18.662) arc (-33.47727:-47.08246:40.277);
+		\fill [black] (34.97,-25.94) -- (35.9,-25.76) -- (35.22,-25.03);
+		\draw (38.82,-23.93) node [right] {$0$};
+		\draw [black] (31.311,-30.546) arc (0.02737:-287.97263:2.25);
+		\draw (26.66,-33.25) node [left] {$1,0$};
+		\fill [black] (29.75,-28.41) -- (28.95,-27.91) -- (28.96,-28.91);
+		\draw [black] (34.27,-38.63) -- (33.13,-30.87);
+		\fill [black] (33.13,-30.87) -- (32.75,-31.73) -- (33.74,-31.59);
+		\draw (34.39,-34.57) node [right] {$1$};
+		\end{tikzpicture}
+		\end{center}
+		Expresión regular: $(00+111)^*$.
+		\item Como el autómata es más confuso de obtener, he decidido sacarlo a ojo: \\
+		$ ((011(0+1)^*110) + (110(0+1)^*011) + (0+1)^*)^*(110 + (0+1)^*)^*$
+\end{enumerate}
+	
+\begin{ejer}
+Encuentra para cada uno de los siguientes lenguajes una gramática de tipo 3 que lo genere o un autómata finito que lo reconozca:
+\begin{itemize}
+	\item $ L_1 = \{ u \in \{0,1\}^*$ : $u$ no contiene la subcadena $0101 \}$.
+	\item $ L_2 = \{ 0^i1^j0^k : i\geq 1, k \geq 0, i \text{ impar}, k \text{ múltiplo de } 3, \text{y } j\geq2 \}$.
+\end{itemize}
+Diseña el AFD mínimo que reconoce el lenguaje $(L_2 \cap L_1)$
+\end{ejer}
+
+\emph{Respuesta.} Para $L_1$ el enunciado estaba mal así que he supuesto que $a=0,b=1$. Los autómatas correspondientes serían:
+\begin{itemize}
+	\item $L_1$:
+	\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (12.2,-21.7) circle (3);
+\draw (12.2,-21.7) node {$q_0$};
+\draw [black] (12.2,-21.7) circle (2.4);
+\draw [black] (24.3,-21.7) circle (3);
+\draw (24.3,-21.7) node {$q_1$};
+\draw [black] (24.3,-21.7) circle (2.4);
+\draw [black] (39.2,-21.7) circle (3);
+\draw (39.2,-21.7) node {$q_2$};
+\draw [black] (39.2,-21.7) circle (2.4);
+\draw [black] (52.9,-21.7) circle (3);
+\draw (52.9,-21.7) node {$q_3$};
+\draw [black] (52.9,-21.7) circle (2.4);
+\draw [black] (67.2,-21.7) circle (3);
+\draw (67.2,-21.7) node {$\emptyset$};
+\draw [black] (7.9,-21.7) -- (9.2,-21.7);
+\fill [black] (9.2,-21.7) -- (8.4,-21.2) -- (8.4,-22.2);
+\draw [black] (14.672,-20.027) arc (114.23448:65.76552:8.717);
+\fill [black] (21.83,-20.03) -- (21.3,-19.24) -- (20.89,-20.15);
+\draw (18.25,-18.76) node [above] {$0$};
+\draw [black] (9.592,-20.241) arc (268.50852:-19.49148:2.25);
+\draw (7.37,-15.64) node [above] {$1$};
+\fill [black] (11.77,-18.74) -- (12.29,-17.96) -- (11.29,-17.93);
+\draw [black] (26.723,-19.947) arc (117.8887:62.1113:10.748);
+\fill [black] (36.78,-19.95) -- (36.3,-19.13) -- (35.84,-20.01);
+\draw (31.75,-18.2) node [above] {$1$};
+\draw [black] (41.455,-19.744) arc (121.23829:58.76171:8.86);
+\fill [black] (50.64,-19.74) -- (50.22,-18.9) -- (49.7,-19.76);
+\draw (46.05,-17.96) node [above] {$0$};
+\draw [black] (25.579,-18.992) arc (149.05511:30.94489:15.182);
+\fill [black] (25.58,-18.99) -- (26.42,-18.56) -- (25.56,-18.05);
+\draw (38.6,-11.12) node [above] {$0$};
+\draw [black] (37.308,-24.022) arc (-44.46017:-135.53983:16.263);
+\fill [black] (14.09,-24.02) -- (14.3,-24.94) -- (15.01,-24.24);
+\draw (25.7,-29.39) node [below] {$1$};
+\draw [black] (55.43,-20.104) arc (114.52542:65.47458:11.131);
+\fill [black] (64.67,-20.1) -- (64.15,-19.32) -- (63.74,-20.23);
+\draw (60.05,-18.6) node [above] {$1$};
+\draw [black] (68.334,-18.935) arc (185.42367:-102.57633:2.25);
+\draw (72.8,-15.78) node [right] {$0,1$};
+\fill [black] (70.08,-20.92) -- (70.93,-21.34) -- (70.83,-20.35);
+\end{tikzpicture}
+\end{center}
+	Y por el algoritmo para hacerlo minimal, vemos que ya es minimal.
+	\item $L_2$:
+	\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (5,-28.4) circle (3);
+\draw (5,-28.4) node {$q_0$};
+\draw [black] (11,-16.6) circle (3);
+\draw (11,-16.6) node {$q_1$};
+\draw [black] (21.3,-10.3) circle (3);
+\draw (21.3,-10.3) node {$q_2$};
+\draw [black] (35.4,-7.6) circle (3);
+\draw (35.4,-7.6) node {$q_3$};
+\draw [black] (35.4,-7.6) circle (2.4);
+\draw [black] (51.1,-8.8) circle (3);
+\draw (51.1,-8.8) node {$q_5$};
+\draw [black] (62.5,-16.6) circle (3);
+\draw (62.5,-16.6) node {$q_6$};
+\draw [black] (72.9,-28.4) circle (3);
+\draw (72.9,-28.4) node {$q_7$};
+\draw [black] (72.9,-28.4) circle (2.4);
+\draw [black] (39.6,-29.7) circle (3);
+\draw (39.6,-29.7) node {$\emptyset$};
+\draw [black] (0.7,-28.4) -- (2,-28.4);
+\fill [black] (2,-28.4) -- (1.2,-27.9) -- (1.2,-28.9);
+\draw [black] (4.733,-25.423) arc (-183.31101:-230.59335:10.189);
+\fill [black] (8.44,-18.14) -- (7.5,-18.26) -- (8.14,-19.03);
+\draw (5.13,-20.27) node [left] {$0$};
+\draw [black] (11.873,-13.75) arc (151.61762:91.2865:7.573);
+\fill [black] (18.37,-9.78) -- (17.55,-9.3) -- (17.58,-10.3);
+\draw (13.58,-10.39) node [above] {$1$};
+\draw [black] (23.202,-7.996) arc (131.48301:70.1976:9.568);
+\fill [black] (32.78,-6.16) -- (32.2,-5.42) -- (31.86,-6.36);
+\draw (27.21,-5.18) node [above] {$1$};
+\draw [black] (10.029,-19.438) arc (-21.22995:-32.67441:36.602);
+\fill [black] (6.72,-25.94) -- (7.57,-25.54) -- (6.73,-25);
+\draw (9.23,-23.9) node [right] {$0$};
+\draw [black] (38.141,-6.394) arc (107.60409:63.65431:13.982);
+\fill [black] (48.57,-7.19) -- (48.08,-6.39) -- (47.64,-7.28);
+\draw (43.55,-5.21) node [above] {$0$};
+\draw [black] (54.003,-9.538) arc (70.3839:40.85541:16.063);
+\fill [black] (60.76,-14.16) -- (60.62,-13.23) -- (59.86,-13.88);
+\draw (58.68,-10.91) node [above] {$0$};
+\draw [black] (65.342,-17.539) arc (65.16526:17.61781:13.1);
+\fill [black] (72.33,-25.46) -- (72.56,-24.55) -- (71.61,-24.85);
+\draw (70.21,-19.31) node [right] {$0$};
+\draw [black] (53.68,-7.279) arc (114.78287:-18.69919:14.973);
+\fill [black] (53.68,-7.28) -- (54.62,-7.4) -- (54.2,-6.49);
+\draw (70.98,-9.25) node [above] {$0$};
+\draw [black] (36.083,-4.691) arc (194.52754:-93.47246:2.25);
+\draw (40.7,-1.9) node [above] {$1$};
+\fill [black] (38.12,-6.37) -- (39.02,-6.66) -- (38.77,-5.69);
+\draw [black] (36.639,-30.182) arc (-81.81794:-102.4855:80.117);
+\fill [black] (36.64,-30.18) -- (35.78,-29.8) -- (35.92,-30.79);
+\draw (22.2,-31.48) node [below] {$1$};
+\draw [black] (37.166,-27.947) arc (-127.14095:-146.20162:62.747);
+\fill [black] (37.17,-27.95) -- (36.83,-27.06) -- (36.23,-27.86);
+\draw (28.88,-22.45) node [left] {$0$};
+\draw [black] (40.465,-26.828) arc (161.5168:140.84057:50.118);
+\fill [black] (40.47,-26.83) -- (41.19,-26.23) -- (40.24,-25.91);
+\draw (43.42,-17.36) node [left] {$1$};
+\draw [black] (59.9,-18.09) -- (42.2,-28.21);
+\fill [black] (42.2,-28.21) -- (43.15,-28.25) -- (42.65,-27.38);
+\draw (50.05,-22.65) node [above] {$1$};
+\draw [black] (69.9,-28.52) -- (42.6,-29.58);
+\fill [black] (42.6,-29.58) -- (43.42,-30.05) -- (43.38,-29.05);
+\draw (56.22,-28.51) node [above] {$1$};
+\end{tikzpicture}
+\end{center}
+	Aplicamos el algoritmo para hacerlo minimal y vemos que ya es minimal.
+	\item Ahora bien, como se ve claramente en $L_2$ no se aceptan palabras del tipo $0101$ ó $1010$, por lo tanto $L_2 \subset L_1$ y por tanto $(L_2 \cap L_1) = L_2)$ y como $L_2$ ya es minimal ya tenemos el AFD minimal de la intersección.
+\end{itemize}
+
+\begin{ejer}
+Sea el alfabeto $A = \{0,1,+,=\}$, demostrar que el lenguaje
+$$ ADD = \{ x = y + z : x,y,z \text{ son números en binario, y } x \text{ es la suma de } y \text{ y } z\}$$
+no es regular.
+\end{ejer}
+
+\emph{Respuesta.} 
+Vamos a ver que tiene infinitas clase de equivalencia, está claro que si fijamos un $1^i=$ por mucho que yo quiera, lo que le añada al final tiene que ser la suma de dos números que tienen que dar ese $1^i$ para dos $i$ distintos, las clases de equivalencia son distintas, y por tanto como mínimo tenemos que: $$\forall i \in \mathbb{N}, \exists [1^i] : [1^i] \neq [1^{1+i}]$$
+
+\begin{ejer}
+Si $L_1$, $L_2$ son lenguajes sobre el alfabeto $A$, entonces la mezcla perfecta de estos lenguajes se define como
+$$ \{ w : w = a_1b_1 \cdots a_kb_k \text{ donde } a_1\cdots a_k \in L_1 , b_1\cdots b_k \in L_2, a_i,b_i \in A \} $$
+Demostrar que si $L_1$ y $L_2$ son regulares, entonces la mezcla perfecta de $L_1$ y $L_2$ es regular.
+\end{ejer}
+
+\emph{Respuesta.}
+Como ambos lenguajes son regulares, podemos crear AFD para cada uno que acepten el lenguaje respectivo. Por tanto la idea es construir otro autómata con la mezcla de los dos, de tal manera que cada vez que introduzco un $a_i$ voy al estado correspondiente según el AFD de $L_1$, que lo llamaremos $q_{a_i}$, aqui pasaremos al introducir un $b_i$ al estado correspondiente del AFD de $L_2$ llamado $q_{b_i}$, hasta llegar a $b_k$ que llegamos al estado final $q_{b_k}$ que es el que se acepta. \\
+
+Es decir, la idea es que si $a_1 \cdots a_k$ se acepta en $L_1$ y $b_1 \cdots b_k$ se acepta en $L_2$, la idea es ir moviendome del estado al que iría en $L_1$ y después al estado al que iría en $L_2$ con $b_1$, por tanto si llegamos al mismo estado final con el que se reconoce $a_1 \cdots a_k$ y $b_1 \cdots b_k$ entonces la palabra compuesta se acepta en el nuevo autómata, por tanto el lenguaje aceptado mezcla perfecta es regular.
+
+
+\begin{ejer}
+Minimizar el autómata que se da.
+\end{ejer}
+
+\emph{Respuesta.} Facilmente con el algoritmo para hacerlo minimal vemos que los siguientes estados son indistinguibles: $ q_1 \equiv q_4 $, $q_2 \equiv q_5$ y $q_3 \equiv q_6$, por tanto el autómata nos quedaría de la siguiente forma:
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (7.2,-27) circle (3);
+\draw (7.2,-27) node {$q_0$};
+\draw [black] (21.9,-27) circle (3);
+\draw (21.9,-27) node {$q_1$};
+\draw [black] (36.5,-27) circle (3);
+\draw (36.5,-27) node {$q_2$};
+\draw [black] (36.5,-27) circle (2.4);
+\draw [black] (52.3,-27) circle (3);
+\draw (52.3,-27) node {$q_3$};
+\draw [black] (66.4,-27) circle (3);
+\draw (66.4,-27) node {$q_7$};
+\draw [black] (3.5,-27) -- (4.2,-27);
+\fill [black] (4.2,-27) -- (3.4,-26.5) -- (3.4,-27.5);
+\draw [black] (10.2,-27) -- (18.9,-27);
+\fill [black] (18.9,-27) -- (18.1,-26.5) -- (18.1,-27.5);
+\draw (14.55,-26.5) node [above] {$a,b$};
+\draw [black] (24.9,-27) -- (33.5,-27);
+\fill [black] (33.5,-27) -- (32.7,-26.5) -- (32.7,-27.5);
+\draw (29.2,-26.5) node [above] {$a,b$};
+\draw [black] (39.15,-25.605) arc (111.70714:68.29286:14.195);
+\fill [black] (49.65,-25.61) -- (49.09,-24.84) -- (48.72,-25.77);
+\draw (44.4,-24.1) node [above] {$a$};
+\draw [black] (49.481,-28.018) arc (-74.62332:-105.37668:19.163);
+\fill [black] (39.32,-28.02) -- (39.96,-28.71) -- (40.22,-27.75);
+\draw (44.4,-29.2) node [below] {$a$};
+\draw [black] (55.3,-27) -- (63.4,-27);
+\fill [black] (63.4,-27) -- (62.6,-26.5) -- (62.6,-27.5);
+\draw (59.35,-26.5) node [above] {$b$};
+\draw [black] (38.472,-24.744) arc (134.22246:45.77754:18.607);
+\fill [black] (64.43,-24.74) -- (64.2,-23.83) -- (63.51,-24.54);
+\draw (51.45,-18.97) node [above] {$b$};
+\draw [black] (68.279,-24.676) arc (168.77514:-119.22486:2.25);
+\draw (73.25,-23.14) node [right] {$a,b$};
+\fill [black] (69.39,-27.08) -- (70.07,-27.72) -- (70.27,-26.74);
+\end{tikzpicture}
+\end{center}
+
+
+
+\end{document}

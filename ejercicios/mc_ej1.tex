@@ -1,0 +1,291 @@
+
+\documentclass[11pt]{article}
+
+%%% PAQUETES
+
+% Idioma
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\setlength{\parindent}{0pt}
+
+% Matemáticas
+\usepackage{amssymb, amsthm}
+
+% Fuentes
+\usepackage[T1]{fontenc}
+\usepackage[sfdefault, scaled=.85]{roboto}
+\usepackage[scaled=.8]{FiraMono}
+\usepackage[cmintegrals]{newtxsf}
+\usepackage[italic]{mathastext}
+\usepackage{textcomp}
+\usepackage{wasysym}
+
+% Tablas
+\usepackage{multirow}
+\usepackage{colortbl}
+
+% Gráficos y colores
+
+\usepackage[x11names, rgb, html]{xcolor}
+\usepackage{graphics}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{adjustbox}
+
+% Ajustes del documento
+\usepackage{geometry}
+\geometry{left=3cm,right=3cm,top=3cm,bottom=3cm,headheight=1cm,headsep=0.5cm}
+\usepackage{enumitem}
+
+% Entornos personalizados.
+\usepackage{mdframed}
+
+% Código
+\usepackage{listingsutf8}
+
+%%% COLORES
+
+% Material Design
+
+\definecolor{50}{HTML}{E0F7FA}
+\definecolor{300}{HTML}{4DD0E1}
+\definecolor{500}{HTML}{00BCD4}
+\definecolor{700}{HTML}{0097A7}
+\definecolor{900}{HTML}{006064}
+
+% Solarized
+
+\definecolor{sbase03}{HTML}{002B36}
+\definecolor{sbase02}{HTML}{073642}
+\definecolor{sbase01}{HTML}{586E75}
+\definecolor{sbase00}{HTML}{657B83}
+\definecolor{sbase0}{HTML}{839496}
+\definecolor{sbase1}{HTML}{93A1A1}
+\definecolor{sbase2}{HTML}{EEE8D5}
+\definecolor{sbase3}{HTML}{FDF6E3}
+\definecolor{syellow}{HTML}{B58900}
+\definecolor{sorange}{HTML}{CB4B16}
+\definecolor{sred}{HTML}{DC322F}
+\definecolor{smagenta}{HTML}{D33682}
+\definecolor{sviolet}{HTML}{6C71C4}
+\definecolor{sblue}{HTML}{268BD2}
+\definecolor{scyan}{HTML}{2AA198}
+\definecolor{sgreen}{HTML}{859900}
+
+% Colores del documento
+
+\definecolor{text}{RGB}{78,78,78}
+\definecolor{accent}{RGB}{129, 26, 24}
+
+%%% LISTINGS
+
+% Listing -> Código fuente
+\renewcommand{\lstlistingname}{Código fuente}
+
+% Ajustes para que funcionen bien las tildes de los comentarios
+
+\lstset{
+  inputencoding=utf8/latin1
+}
+
+% Ajustes de Listings para el documento
+
+\lstset{
+  frame=leftline,
+  rulecolor=\color{300},
+  framerule=2pt,
+  % Números de línea
+  numbers=left,
+  % Margen adicional para alinear los entornos con el resto de párrafos
+  xleftmargin=0.7em,
+  % Espacio adicional debajo del título
+  belowcaptionskip=1\baselineskip,
+  % Colores
+  basicstyle=\footnotesize\ttfamily\color{sbase00},
+  keywordstyle=\color{700},
+  commentstyle=\color{300},
+  stringstyle=\color{500},
+  numberstyle=\color{500},
+  % Separar líenas largas en varias líneas
+  breaklines=true,
+  showstringspaces=false,
+  tabsize=2,
+}
+
+%%% ENTORNOS PERSONALIZADOS
+
+\newtheoremstyle{ejercicio-style} % Nombre del estilo.
+{-0.5em}                          % Espacio por encima.
+{}                                % Espacio por debajo.
+{\normalfont}                     % Fuente del cuerpo.
+{}                                % Identación.
+{\bf\sffamily}                    % Fuente para la cabecera.
+{.}                               % Puntuación tras la cabecera.
+{.5em}                            % Espacio tras la cabecera.
+{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}     % Especificación de la cabecera (actual: nombre en negrita).
+
+
+\mdfdefinestyle{ejercicio-frame}{
+  linewidth=2pt, %
+  linecolor= 300, %
+  backgroundcolor= 50,
+  topline=false, %
+  bottomline=false, %
+  rightline=false,%
+  leftmargin=0pt, %
+  innerleftmargin=1em, %
+  innerrightmargin=1em,
+  rightmargin=0pt, %
+  innertopmargin=1em,%
+  innerbottommargin=1em, %
+  splittopskip=\topskip, %
+}%
+
+\surroundwithmdframed[style=ejercicio-frame]{ejer}
+
+\theoremstyle{ejercicio-style}
+\newtheorem{ejer}{Ejercicio}
+
+\begin{document}
+
+% Cabecera del documento
+
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}!{\color{300}{\vrule width 2pt}}>{\columncolor{50}}clc}
+    \noalign{\global\arrayrulewidth=2pt}
+    %\arrayrulecolor{300}\hline
+    & & \\
+    & \Large{Modelos de Computación (MC)} & \\
+               & \large{Entrega de ejercicios.} & \\
+               & \large{Tema 1} & \\
+          & & \\
+          & \textsf{Estudiante (nombre y apellidos): Miguel Lentisco Ballesteros}  & \\
+          & \textsf{Grupo de prácticas: A1} & \\
+          & \textsf{Fecha de entrega: 29/09/2017} & \\
+         \multirow{-10}{*}{ \begin{tabular}{c}
+        \small{3º curso / 1º cuatr.} \\ Grado Ing. Inform. \\ Doble Grado Ing. \\ Inform. y Mat.
+\end{tabular}}  & & \\
+    %\hline
+\end{tabular*}
+
+\vspace{1cm}
+
+\section*{Ejercicios Tema 1}
+\label{sec:ej_tema_1}
+
+% Ejercicio 13
+\begin{ejer}
+   Dados dos homomorfismos $f:A^* \rightarrow B^*, g:A^* \rightarrow B^*$, se dicen que son iguales si $f(x)=g(x), \forall x \in A^{*}$. ¿Existe un procedimiento algorítmico para comprobar si dos homomorfismos son iguales?
+\end{ejer}
+
+\emph{Respuesta.} Tenemos que siendo $A = \{a_1,a_2,...,a_n\}$ un alfabeto, $A^* = \bigcup\limits_{i=0}^{\infty} A^i$, la cuestión es que por ser f y g homomorfismos cumplen que $f(uv)=f(u)f(v) \forall u,v \in A^*$ (igual para $g$), entonces solo tenemos que ver que $f(u)=g(u) \forall u \in A$. \\
+
+Debido a que cualquier palabra en $A^*$ estará formada por la concatenación de los símbolos de $A^*$, y dado que podemos separarlas por ser las funciones homomorfas, si las dividimos en elementos de $A$ nos quedará que cualquier palabra de $A^*$ se forma con elementos de $A$, es decir; cualquiera palabra de $A^*$ se expresará como una secuencia de elementos de $A$.
+
+Entonces, por ser homomorfas cumplen que $f(\epsilon) = g(\epsilon) = \epsilon$, luego el algoritmo que nos atañe es que comprueben todos los elementos del alfabeto, es decir, que cada símbolo se corresponda con el mismo para las dos funciones. \\
+
+Es decir, por ser f y g homomorfas cumplen que $f(a_1...a_n)=f(a_1)...f(a_n)$ (válido para g también), entonces solo tenemos que ver para que f sea igual a g que se cumpla: $f(a)=g(a) \forall a \in A$ \\
+
+En resumen, cualquier palabra de $A^*$ podemos separarla en una secuencia de elementos de $A$ y por las propiedades de ser homomorfas vistas arriba da igual el orden o el número de los elementos, la condición para que sean iguales es que tienen que llevar los mismos elementos de $A$ en $B$. \\
+
+% Ejercicio 16
+\begin{ejer}
+	Dada la gramática $G = (\{S,A\},\{a,b\},P,S)$ donde $P = \{ S \rightarrow abAS,abA \rightarrow baab, S \rightarrow a, A \rightarrow b \}.$ Determinar el lenguaje que genera.
+\end{ejer}
+
+\emph{Respuesta.} Primero nos fijamos en como van a acabar las palabras generadas por este lenguaje, de $S$ podemos generar $abAS$ o $a$, en cualquier caso podemos seguir creando secuencias de $abA$ pero al final siempre habrá una $S$ última. Las $A$ se convierten en $b$ o bien $abA$ en $baab$, el caso es que el final de la palabra tendrá forzosamente que acabar en $a$. Lo siguiente es que lo que precede a esa a final puede ser cualquier patrón de $abb$ o $baab$ repetido e intercalándose. \\
+
+Designamos $L_{a} = \{ (abb)^i : i\geq 0 \}$ y $L_{b} = \{ (baab)^i : i\geq 0 \} $ y ahora $L_{c} = \bigcup\limits_{i=0}^{\infty} {(L_a \cup L_b)}^i$, así tenemos cubiertas todas las posibilidades de concatenación de las dos subcadenas (incluída la palabra vacía) entonces: \\
+
+El lenguaje generado por la gramática es $L(G) = \{ ua : u \in L_c \} \equiv$ todas las palabras que tienen una combinación cualquiera repetida e intercalada de las subcadenas $abb$ o $baab$ y que acaban en $a$. \\
+
+$L(G) = \{ ua : u \in {\{abb,baab\}}^* \}$ \\
+
+% Ejercicio 17
+\begin{ejer}
+	Sea la gramática $G=(V,T,P,S)$ donde:
+	\begin{itemize}
+		\item $V = \{ <numero>,<digito>\}$
+		\item $T = \{0,1,2,3,4,5,6,7,8,9\}$
+		\item $S = <numero>$
+		\item Las reglas de producción $P$ son:
+		\begin{itemize}
+			\item $<numero>\rightarrow <numero><digito> $
+			\item $<numero>\rightarrow <digito> $
+			\item $<digito>\rightarrow 0|1|2|3|4|5|6|7|8|9 $
+		\end{itemize}
+	\end{itemize}
+	Determinar el lenguaje que genera.
+\end{ejer}
+
+\emph{Respuesta.} Obviamente vemos que con $<numero>$ o convertimos a $<digito>$ o en $<numero><digito>$ el caso es que para obtener una palabra al final todos serán $<digito>$ que se convertirán en cifras de la base decimal. La conclusión a la que llegamos es que podemos generar todos los dígitos que queramos y además cualquier dígito puede ser cualquier cifra de la base decimal. Por tanto sacamos que las palabras generadas son cualquier numero natural en base decimal. \\
+
+Lenguaje generado por la gramática es $L(G) = T^+ = \bigcup\limits_{i=1}^{\infty} T^i \equiv$ cualquier número natural en base decimal. \\
+
+% Ejercicio 18
+\begin{ejer}
+	Sea la gramática $G = (\{A,S\},\{a,b\},S,P)$ donde las reglas de producción son:
+	\begin{center}
+		\begin{tabular}{cccc}
+			$ S \rightarrow aS $ \\
+			$ S \rightarrow aA $ \\
+			$ A \rightarrow bA $ \\
+			$ A \rightarrow b $
+		\end{tabular}
+	\end{center}
+	Determinar el lenguaje generado por la gramática.
+\end{ejer}
+
+\emph{Respuesta.} Es fácil ver que si empezamos con $S$ podemos crear todas las $a$ que queramos con $S \rightarrow aS$ pero cuando hagamos $S \rightarrow aA$ será la última $a$, a partir de ahí solo podemos crear b, todas las que queramos, hasta que acabemos con $A \rightarrow b$ poniendo la última b. \\
+
+Vemos claramente que podemos crear todas las $a$ que queramos (una mínimo) y luego todas las $b$ que queramos (una mínimo), siendo $ab$ la palabra de longitud mínima en el lenguaje generado ($\epsilon$ no está). \\
+
+Luego el lenguaje generado por la gramática es: $L(G) = \{ a^i b^j : i,j \geq 1 \} \equiv$ cualquier palabra con una secuencia de $a$ seguida de una secuencia de $b$. \\
+
+% Ejercicio 19
+\begin{ejer}
+	Encontrar si es posible una gramática lineal por la derecha o una gramática libre del contexto que genere el lenguaje $L$ supuesto que $L \subset {\{a,b,c\}}^{*}$ y verifica:
+	\begin{itemize}
+		\item $u \in L \iff u$ no contiene dos símbolos $b$ consecutivos.
+		\item $u \in L \iff u$ contiene dos símbolos $b$ consecutivos.
+		\item $u \in L \iff u$ contiene un número impar de símbolos $c$.
+		\item $u \in L \iff u$ no contiene el mismo número de símbolos $b$ que de símbolos $c$
+	\end{itemize}
+\end{ejer}
+
+\emph{Respuesta.} Todos los lenguajes generados son de tipo 3 (se pueden generar  con una gramática regular, pero que en concreto son también libre del contexto) menos el 4, aunque es del tipo 2 y tiene también una gramática libre del contexto.
+	\begin{enumerate}
+		\item Reglas:
+			\begin{center}
+				\begin{tabular}{cc}
+					$ S \rightarrow aS | bX | cS | \epsilon $ \\
+					$ X \rightarrow aS | cS | \epsilon $
+				\end{tabular}
+			\end{center}
+		\item Reglas:
+			\begin{center}
+				\begin{tabular}{cc}
+					$ S \rightarrow aS | bS | cS | bbX $ \\
+					$ X \rightarrow aX | bX | cX | \epsilon $
+				\end{tabular}
+			\end{center}
+		\item Reglas:
+			\begin{center}
+				\begin{tabular}{cc}
+					$ S \rightarrow aS | bS | cX $ \\
+					$ X \rightarrow aX | bX | cS | \epsilon $
+				\end{tabular}
+			\end{center}
+		\item Reglas:
+			\begin{center}
+				\begin{tabular}{cccccc}
+					$ S \rightarrow S_1 | S_2 $ \\
+					$ S_1 \rightarrow B | BS_1 $ \\
+					$ S_2 \rightarrow C | CS_2 $ \\
+					$ B \rightarrow bX | cBB | aB $ \\
+					$ C \rightarrow cX | bCC | aC $ \\
+					$ X \rightarrow bC | aX | cB | \epsilon $
+				\end{tabular}
+			\end{center}
+	\end{enumerate}
+
+\end{document}
